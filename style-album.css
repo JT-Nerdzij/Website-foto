@@ -1,0 +1,168 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #F4F4F4;
+    color: #111111;
+    margin: 0;
+    padding: 0 0 0 0;
+    overflow-x: hidden;
+}
+
+
+header {
+    background-color: #ffffff;
+    padding: 20px 40px;
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.logo {
+    color: #000000;
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.logo a {
+    color: black;           
+    text-decoration: none;  
+}
+
+.logo a:visited {
+    color: black;
+}
+
+.menu a {
+    color: #000000;
+    text-decoration: none;
+    margin-left: 20px;
+    font-size: 14px;
+}
+
+.menu a:hover {
+    color: #CBA135;
+}
+
+footer {
+    background-color: #ffffff;
+    color: #000000;
+    text-align: center;
+    padding: 20px;
+    margin-top: 20px;
+    margin-left: -50vw;
+    margin-right: -50vw; 
+    margin-bottom: -50vw;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 40px;
+    padding-top: 20px;
+}
+
+.photo-grid {
+    column-count: 4; 
+    column-gap: 5px; 
+    width: 100%;
+    max-width: 70%;
+    margin: 0 auto;
+}
+
+.card {
+    break-inside: avoid;
+    margin-bottom: 5px;
+    position: relative;
+    overflow: hidden;
+    padding: 0;
+    background: none;
+    box-shadow: none;
+}
+
+.card img {
+    width: 100%;
+    display: block;
+    border-radius: 5px;
+    height: auto; 
+    transition: transform 0.3s ease;
+}
+
+button {
+    margin-top: 15px;
+    padding: 10px 20px;
+    background-color: #000000;
+    color: #FFFFFF;
+    border: none;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #333333;
+}
+
+.button {
+    display: block;
+    width: fit-content;
+    margin: 15px auto 0 auto;
+    padding: 10px 20px;
+    background-color: #2b2b2b;
+    color: #FFFFFF;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.container {
+    width: 100%;
+    max-width: 100%; 
+    padding: 0 20px; 
+    margin: 40px auto;
+}
+
+.card .button {
+    position: absolute;
+    bottom: 15px;
+    left: 15px;
+    margin: 0;
+    background-color: rgba(0, 0, 0, 0.6);
+    color: white;
+    padding: 8px 15px;
+    border-radius: 5px;
+    font-size: 13px;
+    text-decoration: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: 10;
+}
+
+.card:hover .button {
+    opacity: 1; 
+}
+
+.card:hover img {
+    transform: scale(1.05); 
+}
+
+.terugknop {
+    position: absolute;
+    display: inline-block;
+    left: 330px;
+    top: 165px;
+    color: #333;
+    text-decoration: none;
+    font-weight: bold;
+    transition: transform 0.2 ease;
+    position: absolute;
+}
+
+.terugknop:hover {
+    color: #CBA135;
+}
+

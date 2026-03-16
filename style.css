@@ -1,0 +1,364 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #F4F4F4;
+    color: #111111;
+    margin: 0;
+}
+
+
+header {
+    background-color: #ffffff;
+    padding: 20px 40px;
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.logo {
+    color: #000000;
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.logo a {
+    color: black;           
+    text-decoration: none;  
+}
+
+.logo a:visited {
+    color: black;
+}
+
+.menu a {
+    color: #000000;
+    text-decoration: none;
+    margin-left: 20px;
+    font-size: 14px;
+}
+
+.menu a:hover {
+    color: #CBA135;
+}
+
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 60px auto;
+}
+
+.container h1 {
+    width: 90%;
+    max-width: 1200px;
+    margin: 60px auto;
+    padding-bottom: auto;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+.card {
+    background-color: #FFFFFF;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px #00000010;
+    text-align: center;
+}
+
+.card img {
+    width: 100%;
+    border-radius: 5px;
+}
+
+button {
+    padding: 10px 20px;
+    background-color: #000000;
+    color: #FFFFFF;
+    border: none;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+button:hover {
+    background-color: #CBA135;
+}
+
+form {
+    max-width: 400px;
+    margin: 20px auto;
+}
+
+input, textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+}
+
+textarea {
+    height: 150px;
+}
+
+input, textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #CCCCCC;
+}
+
+.lightbox {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background-color: #000000EE;
+    justify-content: center;
+    align-items: center;
+}
+
+.lightbox img {
+    max-width: 90%;
+    max-height: 80%;
+}
+
+.lightbox:target {
+    display: flex;
+}
+
+
+footer {
+    background-color: #ffffff;
+    color: #000000;
+    text-align: center;
+    padding: 20px;
+}
+
+h1{
+    text-align: center;
+}
+
+p{
+    text-align: center;
+}
+
+.img_homepage {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.schema {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.schema th {
+  background-color: #333;
+  color: white;
+  padding: 12px;
+}
+
+.schema td {
+  padding: 10px;
+  text-align: center;
+}
+
+.schema th, .schema td {
+  border: 1px solid #ccc;
+}
+
+.schema tr {
+  background-color: #f2f2f2;
+}
+
+
+.portfolio {
+    width: 90%;
+    max-width: 1200px;
+    margin: 60px auto;
+}
+
+
+.portfolio-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 15px;
+    margin-bottom: 60px;
+}
+
+.portfolio-grid img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 6px;
+    transition: transform 0.3s;
+}
+
+.portfolio-grid img:hover {
+    transform: scale(1.05);
+}
+
+.fotovanuitlegtekst {
+    display: grid;
+    grid-template-columns: 1.3fr 1fr;
+    gap: 40px;
+    align-items: center;
+}
+
+.fotovanuitlegtekst img {
+    width: 100%;
+    height: 350px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.uitlegtekst h1 {
+    margin-bottom: 15px;
+    font-size: 26px;
+}
+
+.uitlegtekst p {
+    margin-bottom: 10px;
+    line-height: 1.6;
+}
+
+.button {
+    display: block;
+    width: fit-content;
+    margin: 15px auto 0 auto;
+    padding: 10px 20px;
+    background-color: #2b2b2b;
+    color: #FFFFFF;
+    text-decoration: none;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.button:hover {
+    background-color: #444;
+    transform: scale(1.05);
+}
+
+.albumtitle {
+    padding-top: 10px;
+}
+
+.photo-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 4px;
+    padding-left: 4px;
+    padding-right: 4px;
+    margin-top: 40px;
+}
+
+.photo-grid img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 6px;
+    transition: transform 0.3s;
+}
+
+.photo-grid img:hover {
+    transform: scale(1.05);
+}
+
+.tekstbovenfotos {
+    text-align: center;
+    margin-top: 60px;
+    margin-bottom: 25px;
+    font-size: 28px;
+}
+
+.checkbox-container {
+  display: flex;
+  align-items: center;
+  font-family: sans-serif;
+  gap: 10px; 
+  margin: 20px 0;
+}
+
+.checkbox-container input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+}
+
+.checkbox-container label {
+  cursor: pointer;
+  font-size: 14px;
+  color: #333;
+}
+
+.checkbox-container a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.checkbox-container a:hover {
+  text-decoration: underline;
+}
+
+.instagramtekst {
+    text-align: center;
+}
+
+.instagram-knop {
+    display: block;
+    width: fit-content;
+    margin: 20px auto;
+    padding: 12px 28px;
+    background: linear-gradient(45deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888);
+    color: white;
+    text-decoration: none;
+    border-radius: 6px;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.instagram-knop:hover {
+    transform: scale(1.10);
+}
+
+.fotovanuitlegtekst-albums {
+    display: grid;
+    grid-template-columns: 1.3fr 1fr;
+    gap: 40px;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.fotovanuitlegtekst-albums img {
+    width: 100%;
+    height: 350px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.uitlegtekst-albums h1 {
+    margin-bottom: 15px;
+    font-size: 26px;
+}
+
+.uitlegtekst-albums p {
+    margin-bottom: 10px;
+    line-height: 1.6;
+}
+
+
+.card img:hover {
+    transform: scale(1.025);
+}
