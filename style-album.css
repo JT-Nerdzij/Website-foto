@@ -1,3 +1,7 @@
+html {
+    background-color: #ffffff;
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -109,7 +113,97 @@ h1 {
     height: auto;
     display: block;
     border-radius: 5px;
+    cursor: pointer;
     transition: transform 0.3s ease;
+}
+
+.lightbox-open {
+    overflow: hidden;
+}
+
+.album-lightbox {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 32px;
+    background-color: rgba(0, 0, 0, 0.92);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s ease;
+    z-index: 2000;
+}
+
+.album-lightbox.is-open {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.album-lightbox__image {
+    max-width: min(92vw, 1400px);
+    max-height: 88vh;
+    width: auto;
+    height: auto;
+    border-radius: 12px;
+    box-shadow: 0 18px 60px rgba(0, 0, 0, 0.35);
+}
+
+.album-lightbox__content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 18px;
+}
+
+.album-lightbox__close {
+    position: absolute;
+    top: 18px;
+    right: 18px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    border: none;
+    border-radius: 12px;
+    background-color: rgba(255, 255, 255, 0.72);
+    color: #ffffff;
+    font-size: 24px;
+    line-height: 1;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.05);
+    backdrop-filter: blur(8px);
+}
+
+.album-lightbox__close:hover {
+    background-color: rgba(255, 255, 255, 0.88);
+}
+
+.album-lightbox__close span {
+    display: block;
+    color: #111111;
+    line-height: 1;
+    transform: translateY(-1px);
+}
+
+.album-lightbox__download {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 140px;
+    padding: 10px 18px;
+    border-radius: 12px;
+    background-color: rgba(255, 255, 255, 0.9);
+    color: #111111;
+    text-decoration: none;
+    font-weight: bold;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+    backdrop-filter: blur(8px);
+}
+
+.album-lightbox__download:hover {
+    background-color: #ffffff;
 }
 
 button {
@@ -144,23 +238,7 @@ button:hover {
 }
 
 .card .button {
-    position: absolute;
-    bottom: 15px;
-    left: 15px;
-    margin: 0;
-    background-color: rgba(0, 0, 0, 0.6);
-    color: white;
-    padding: 8px 15px;
-    border-radius: 5px;
-    font-size: 13px;
-    text-decoration: none;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-    z-index: 10;
-}
-
-.card:hover .button {
-    opacity: 1; 
+    display: none;
 }
 
 .card:hover img {
@@ -208,13 +286,18 @@ button:hover {
 .main-footer {
     background-color: #ffffff; 
     color: #000000;            
+    width: 100vw;
+    margin: 0;
+    margin-left: calc(50% - 50vw);
     padding: 60px 10% 20px 10%;
     font-family: Arial, sans-serif;
+    margin-bottom: 20px;
 }
 
 .footer-container {
     display: flex;
     justify-content: space-between; 
+    align-items: flex-start;
     flex-wrap: wrap;
     gap: 40px;
     max-width: 1200px;
@@ -224,6 +307,10 @@ button:hover {
 .footer-column {
     flex: 1;
     min-width: 200px;
+}
+
+.footer-column.brand {
+    flex: 1.2;
 }
 
 
@@ -489,5 +576,32 @@ button:hover {
     .card img {
         height: auto;
         object-fit: contain;
+    }
+
+    .album-lightbox {
+        padding: 16px;
+    }
+
+    .album-lightbox__image {
+        max-width: 100%;
+        max-height: 82vh;
+        border-radius: 10px;
+    }
+
+    .album-lightbox__content {
+        width: 100%;
+        gap: 14px;
+    }
+
+    .album-lightbox__close {
+        top: 12px;
+        right: 12px;
+        width: 40px;
+        height: 40px;
+        font-size: 24px;
+    }
+
+    .album-lightbox__download {
+        width: min(100%, 220px);
     }
 }

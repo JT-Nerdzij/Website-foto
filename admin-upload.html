@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Album Upload Paneel</title>
+    <link rel="stylesheet" href="admin-upload.css">
+</head>
+<body>
+    <main class="admin-shell">
+        <section class="hero">
+            <p class="eyebrow">Lokaal beheer</p>
+            <h1>Nieuw album maken</h1>
+            <p class="intro">
+                Kies je projectmap, vul de albumgegevens in en selecteer de foto's.
+                Het paneel maakt daarna automatisch een nieuwe albumpagina, zet de foto's
+                in een nieuwe map en voegt het album toe aan <code>albums.html</code>.
+            </p>
+        </section>
+
+        <section class="panel">
+            <div class="panel-header">
+                <h2>Stap 1. Projectmap koppelen</h2>
+                <button type="button" id="pick-folder" class="primary-button">Kies projectmap</button>
+            </div>
+            <p id="folder-status" class="status-text">Nog geen map geselecteerd.</p>
+        </section>
+
+        <section class="panel">
+            <div class="panel-header">
+                <h2>Stap 2. Albumgegevens</h2>
+            </div>
+
+            <form id="album-form" class="album-form">
+                <label>
+                    Albumtitel
+                    <input type="text" id="album-title" placeholder="Bijv. Prima Donna Kaas MA - Vives MA" required>
+                </label>
+
+                <label>
+                    Bestandsnaam van de pagina
+                    <input type="text" id="album-file" placeholder="bijv. pdkma-vivesma.html" required>
+                </label>
+
+                <label>
+                    Naam van de fotomap
+                    <input type="text" id="album-folder" placeholder="bijv. pdkma-vivesma" required>
+                </label>
+
+                <label>
+                    Foto's kiezen
+                    <input type="file" id="album-images" accept="image/*" multiple required>
+                </label>
+
+                <label>
+                    Omslagfoto voor <code>albums.html</code>
+                    <select id="cover-image" required>
+                        <option value="">Kies eerst foto's</option>
+                    </select>
+                </label>
+
+                <div class="form-actions">
+                    <button type="submit" class="primary-button">Album aanmaken</button>
+                </div>
+            </form>
+        </section>
+
+        <section class="panel">
+            <div class="panel-header">
+                <h2>Stap 3. Resultaat</h2>
+            </div>
+            <p id="result-status" class="status-text">Nog niets uitgevoerd.</p>
+            <ul id="result-list" class="result-list"></ul>
+        </section>
+
+        <section class="panel help-panel">
+            <div class="panel-header">
+                <h2>Zo gebruik je het</h2>
+            </div>
+            <ol class="help-list">
+                <li>Open deze pagina in Chrome of Edge via een lokale server, bijvoorbeeld met VS Code Live Server.</li>
+                <li>Klik op <code>Kies projectmap</code> en selecteer de map van je website.</li>
+                <li>Vul de albumtitel in. De bestandsnaam en mapnaam worden automatisch voorgesteld.</li>
+                <li>Kies de foto's van het nieuwe album.</li>
+                <li>Kies welke foto als omslag op <code>albums.html</code> moet komen.</li>
+                <li>Klik op <code>Album aanmaken</code>. Daarna hoef je alleen nog je wijzigingen te uploaden naar je hosting.</li>
+            </ol>
+        </section>
+    </main>
+
+    <script src="admin-upload.js"></script>
+</body>
+</html>
