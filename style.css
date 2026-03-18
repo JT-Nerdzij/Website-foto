@@ -683,17 +683,22 @@ p{
     }
 
     .menu-toggle {
-        position: absolute;
-        opacity: 0;
-        pointer-events: none;
+        position: absolute !important;
+        width: 0 !important;
+        height: 0 !important;
+        opacity: 0 !important;
+        pointer-events: none !important;
+        appearance: none !important;
+        -webkit-appearance: none !important;
+        overflow: hidden !important;
     }
 
     .menu-button {
-        position: absolute;
+        position: absolute !important;
         top: 50%;
         right: 16px;
         transform: translateY(-50%);
-        display: inline-flex;
+        display: inline-flex !important;
         align-items: center;
         justify-content: center;
         flex-shrink: 0;
@@ -704,10 +709,14 @@ p{
         padding: 0;
         z-index: 1001;
         font-size: 0;
+        color: transparent;
         font-weight: bold;
         cursor: pointer;
         box-shadow: 0 6px 18px rgba(0, 0, 0, 0.05);
         backdrop-filter: blur(8px);
+        overflow: hidden;
+        white-space: nowrap;
+        text-indent: -9999px;
     }
 
     .menu-button::before {
@@ -735,11 +744,12 @@ p{
     }
 
     .menu {
-        position: fixed;
+        position: fixed !important;
         top: 0;
         right: 0;
         z-index: 999;
-        display: grid;
+        display: grid !important;
+        flex-direction: column;
         grid-template-columns: 1fr;
         align-content: start;
         gap: 10px;
@@ -749,7 +759,7 @@ p{
         margin-top: 0;
         background-color: #ffffff;
         box-shadow: -24px 0 60px rgba(0, 0, 0, 0.18), 0 0 0 100vmax rgba(0, 0, 0, 0);
-        transform: translateX(100%);
+        transform: translateX(100%) !important;
         transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
 
@@ -758,7 +768,7 @@ p{
     }
 
     .menu-toggle:checked ~ .menu {
-        transform: translateX(0);
+        transform: translateX(0) !important;
         box-shadow: -24px 0 60px rgba(0, 0, 0, 0.18), 0 0 0 100vmax rgba(0, 0, 0, 0.18);
     }
 
