@@ -390,6 +390,7 @@ button:hover {
 
     .menu-button::before {
         content: "";
+        display: block;
         width: 16px;
         height: 2px;
         border-radius: 999px;
@@ -400,12 +401,15 @@ button:hover {
 
     .menu-toggle:checked + .menu-button::before {
         content: "\2715";
+        display: block;
         width: auto;
         height: auto;
+        color: #111111;
         background-color: transparent;
         box-shadow: none;
         font-size: 24px;
         line-height: 1;
+        text-indent: 0;
     }
 
     .menu-toggle:checked + .menu-button {
