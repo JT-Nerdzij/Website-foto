@@ -49,6 +49,12 @@ nav {
     color: black;
 }
 
+.menu {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
 .menu a {
     color: #000000;
     text-decoration: none;
@@ -178,11 +184,13 @@ p{
   background-color: #333;
   color: white;
   padding: 12px;
+  white-space: nowrap;
 }
 
 .schema td {
   padding: 10px;
   text-align: center;
+  white-space: nowrap;
 }
 
 .schema th, .schema td {
@@ -191,6 +199,21 @@ p{
 
 .schema tr {
   background-color: #f2f2f2;
+}
+
+@media (max-width: 600px) {
+  .schema {
+    display: block;
+    overflow-x: auto;
+    padding-bottom: 10px;
+    -webkit-overflow-scrolling: touch;
+  }
+  .schema th,
+  .schema td {
+    font-size: 14px;
+    padding: 8px;
+    white-space: normal;
+  }
 }
 
 
@@ -203,9 +226,12 @@ p{
 
 .portfolio-grid {
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(5, minmax(220px, 1fr));
     gap: 15px;
-    margin-bottom: 60px;
+    margin: 0 auto 60px auto;
+    width: 100%;
+    max-width: none;
+    justify-items: center;
 }
 
 .portfolio-grid img {
@@ -268,12 +294,13 @@ p{
 
 .photo-grid {
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 4px;
-    padding-left: 4px;
-    padding-right: 4px;
-    margin-top: 40px;
-    margin-bottom: 20px;
+    grid-template-columns: repeat(5, minmax(220px, 1fr));
+    gap: 8px;
+    padding: 0 20px;
+    margin: 40px auto 20px auto;
+    width: 100%;
+    max-width: none;
+    justify-items: center;
 }
 
 .photo-grid img {
@@ -534,4 +561,131 @@ p{
     font-size: 14px;
     color: #666;
     margin-top: -8px;
+
+}
+
+/* Responsive tweaks */
+@media (max-width: 1200px) {
+    .portfolio-grid {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+    .photo-grid {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 1000px) {
+    .portfolio-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .photo-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 900px) {
+    header {
+        padding: 15px 20px;
+    }
+
+    .menu {
+        width: 100%;
+        justify-content: center;
+        margin-top: 12px;
+    }
+
+    .menu a {
+        margin: 8px 10px;
+        font-size: 14px;
+    }
+
+    .portfolio-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .photo-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .fotovanuitlegtekst,
+    .fotovanuitlegtekst-albums {
+        grid-template-columns: 1fr;
+    }
+
+    .fotovanuitlegtekst img,
+    .fotovanuitlegtekst-albums img {
+        height: auto;
+    }
+
+    .over-mij-container,
+    .volleybal-sectie {
+        flex-direction: column;
+        gap: 30px;
+        padding: 40px 10px;
+    }
+
+    .foto-grid {
+        grid-template-columns: 1fr;
+        max-width: 100%;
+    }
+
+    .main-footer {
+        padding: 40px 10% 20px;
+    }
+}
+
+@media (max-width: 650px) {
+    .portfolio-grid,
+    .photo-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 500px) {
+    .portfolio-grid,
+    .photo-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 500px) {
+    .logo {
+        font-size: 20px;
+    }
+
+    .menu a {
+        margin: 6px 8px;
+        padding: 10px 8px;
+        font-size: 13px;
+    }
+
+    .container {
+        margin: 40px auto;
+    }
+
+    .uitlegtekst h1,
+    .uitlegtekst-albums h1 {
+        font-size: 24px;
+    }
+
+    .over-mij-tekst h1 {
+        font-size: 28px;
+    }
+
+    .over-mij-container {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .profielfoto img {
+        margin: 0 auto;
+    }
+
+    .footer-container {
+        flex-direction: column;
+        align-items: center;
+    }
 }

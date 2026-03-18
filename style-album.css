@@ -49,6 +49,12 @@ nav {
     color: black;
 }
 
+.menu {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
 .menu a {
     color: #000000;
     text-decoration: none;
@@ -66,9 +72,6 @@ footer {
     text-align: center;
     padding: 20px;
     margin-top: 20px;
-    margin-left: -50vw;
-    margin-right: -50vw; 
-    margin-bottom: -50vw;
 }
 
 h1 {
@@ -78,28 +81,29 @@ h1 {
 }
 
 .photo-grid {
-    column-count: 4; 
-    column-gap: 5px; 
+    column-count: 4;
+    column-gap: 5px;
     width: 100%;
-    max-width: 70%;
+    max-width: 1400px;
     margin: 0 auto;
 }
 
 .card {
-    break-inside: avoid;
-    margin-bottom: 5px;
-    position: relative;
+    display: inline-block;
+    width: 100%;
+    margin: 0 0 5px;
     overflow: hidden;
     padding: 0;
     background: none;
     box-shadow: none;
+    position: relative;
 }
 
 .card img {
     width: 100%;
+    height: auto;
     display: block;
     border-radius: 5px;
-    height: auto; 
     transition: transform 0.3s ease;
 }
 
@@ -158,16 +162,38 @@ button:hover {
     transform: scale(1.05); 
 }
 
+.page-header {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+}
+
+.page-header h1 {
+    width: 100%;
+    text-align: center;
+    margin: 0;
+}
+
 .terugknop {
-    position: absolute;
-    display: inline-block;
-    left: 330px;
-    top: 165px;
+    display: inline-flex;
+    align-items: center;
+    padding: 8px 14px;
+    background: rgba(0, 0, 0, 0.06);
+    border-radius: 6px;
     color: #333;
     text-decoration: none;
     font-weight: bold;
-    transition: transform 0.2 ease;
-    position: absolute;
+    margin: 0 0 10px 0;
+    margin-left: -115px;
+    transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.terugknop:hover {
+    background: rgba(0, 0, 0, 0.12);
 }
 
 .terugknop:hover {
@@ -239,4 +265,99 @@ button:hover {
 
 .footer-column ul li a:hover {
     color: #CBA135;
+
+}
+
+/* Responsive tweaks */
+@media (max-width: 900px) {
+    header {
+        padding: 15px 20px;
+    }
+
+    .menu {
+        width: 100%;
+        justify-content: center;
+        margin-top: 12px;
+    }
+
+    .menu a {
+        margin: 8px 10px;
+        font-size: 14px;
+    }
+
+    .photo-grid {
+        display: block;
+        column-count: 1;
+        column-gap: 0;
+        max-width: 100%;
+    }
+
+    .card {
+        display: block;
+        height: auto;
+        margin-bottom: 12px;
+    }
+
+    .card img {
+        height: auto;
+        object-fit: contain;
+    }
+
+    .terugknop {
+        position: relative;
+        left: 0;
+        top: 0;
+        margin: 0 0 24px 20px;
+    }
+}
+
+@media (max-width: 600px) {
+    header {
+        padding: 12px 16px;
+    }
+
+    .menu a {
+        margin-left: 12px;
+        font-size: 13px;
+    }
+
+    .page-header {
+        padding: 0;
+        gap: 14px;
+    }
+
+    .page-header h1 {
+        margin-bottom: 0;
+    }
+
+    .terugknop {
+        align-self: flex-start;
+        margin: 0 0 20px 0;
+        padding: 6px 12px;
+        font-size: 14px;
+        border-radius: 5px;
+    }
+
+    .terugknop h3 {
+        margin: 0;
+        font-size: 1em;
+    }
+
+    .photo-grid {
+        display: block;
+        column-count: 1;
+        column-gap: 0;
+        max-width: 100%;
+    }
+
+    .card {
+        display: block;
+        height: auto;
+        margin-bottom: 14px;
+    }
+
+    .card img {
+        height: auto;
+        object-fit: contain;
+    }
 }
