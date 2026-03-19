@@ -649,6 +649,33 @@ p{
 }
 
 @media (max-width: 700px) {
+    .portfolio {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .fotovanuitlegtekst {
+        order: 1;
+    }
+
+    .fotovanuitlegtekst-albums {
+        order: 2;
+    }
+
+    .fotovanuitlegtekst-albums img {
+        order: 1;
+        margin-top: 18px;
+    }
+
+    .uitlegtekst-albums {
+        order: 2;
+    }
+
+    .portfolio-grid {
+        order: 3;
+        margin-top: 22px;
+    }
+
     .portfolio-grid,
     .photo-grid {
         grid-template-columns: 1fr;

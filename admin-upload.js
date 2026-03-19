@@ -14,6 +14,7 @@ let customFileNameTouched = false;
 let customFolderNameTouched = false;
 
 const requiredProjectFiles = ["albums.html", "style-album.css", "albumspage.css"];
+const placeholderPixel = "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==";
 
 const escapeHtml = (value) =>
     value
@@ -105,17 +106,25 @@ const writeTextFile = async (directoryHandle, fileName, content) => {
 };
 
 const copyImageFile = async (directoryHandle, file) => {
-    const fileHandle = await directoryHandle.getFileHandle(file.name, { create: true });
+    const fileHandle = await directoryHandle.getFileHandle(file.storedName, { create: true });
     const writable = await fileHandle.createWritable();
-    await writable.write(file);
+    await writable.write(file.file);
     await writable.close();
 };
 
-const generateAlbumPage = ({ title, folderName, imageFiles }) => {
-    const photoCards = imageFiles
+const createStoredImageName = (originalName) => {
+    const extension = originalName.includes(".") ? `.${originalName.split(".").pop()}` : "";
+    const randomPart = crypto.randomUUID().replaceAll("-", "").slice(0, 20);
+    return `img-${randomPart}${extension.toLowerCase()}`;
+};
+
+const encodePath = (value) => btoa(value);
+
+const generateAlbumPage = ({ title, folderName, imageEntries }) => {
+    const photoCards = imageEntries
         .map(
-            (file) => `    <div class="card">
-        <img src="images/${folderName}/${escapeHtml(file.name)}" alt="sport foto">
+            (entry) => `    <div class="card">
+        <img src="${placeholderPixel}" data-encoded-src="${encodePath(`images/${folderName}/${entry.storedName}`)}" alt="sport foto">
     </div>`
         )
         .join("\n\n");
@@ -144,9 +153,7 @@ const generateAlbumPage = ({ title, folderName, imageFiles }) => {
                 <a href="index.html">Home</a>
                 <a href="overmij.html">Over mij</a>
                 <a href="albums.html"><u>Albums</u></a>
-                <a href="schema.html">Schema</a>
                 <a href="social.html">Instagram</a>
-                <a href="downloads.html">Downloads</a>
                 <a href="contact.html">Contact</a>
             </div>
     </nav>
@@ -180,7 +187,6 @@ ${photoCards}
                 <li><a href="index.html">Home</a></li>
                 <li><a href="albums.html">Albums</a></li>
                 <li><a href="overmij.html">Over Mij</a></li>
-                <li><a href="schema.html">Schema</a></li>
             </ul>
         </div>
 
@@ -188,13 +194,14 @@ ${photoCards}
             <h3>Support</h3>
             <ul>
                 <li><a href="contact.html">Contact</a></li>
-                <li><a href="downloads.html">Downloads</a></li>
                 <li><a href="social.html">Instagram</a></li>
             </ul>
         </div>
     </div>
 </footer>
 
+<script src="album-locks.js"></script>
+<script src="album-access.js"></script>
 <script src="album-lightbox.js"></script>
 
 </body>
@@ -202,8 +209,8 @@ ${photoCards}
 `;
 };
 
-const buildAlbumCard = ({ pageFileName, folderName, coverFileName, title }) => `            <div class="card">
-                <a href="${escapeHtml(pageFileName)}"><img src="images/${escapeHtml(folderName)}/${escapeHtml(coverFileName)}" alt="Something went wrong"></a>
+const buildAlbumCard = ({ pageFileName, folderName, coverStoredName, title }) => `            <div class="card">
+                <a href="${escapeHtml(pageFileName)}"><img src="images/${escapeHtml(folderName)}/${escapeHtml(coverStoredName)}" alt="Something went wrong"></a>
                 <a href="${escapeHtml(pageFileName)}"><h2>${escapeHtml(title)}</h2></a>
             </div>
 
@@ -288,15 +295,21 @@ albumForm.addEventListener("submit", async (event) => {
         const existingAlbumHtml = await getFileText(rootDirectoryHandle, "albums.html");
         const imagesDirectoryHandle = await rootDirectoryHandle.getDirectoryHandle("images", { create: true });
         const albumImageDirectoryHandle = await imagesDirectoryHandle.getDirectoryHandle(folderName, { create: true });
+        const imageEntries = imageFiles.map((file) => ({
+            file,
+            sourceName: file.name,
+            storedName: createStoredImageName(file.name),
+        }));
+        const coverEntry = imageEntries.find((entry) => entry.sourceName === coverFileName);
 
-        for (const file of imageFiles) {
+        for (const file of imageEntries) {
             await copyImageFile(albumImageDirectoryHandle, file);
         }
 
         const albumPage = generateAlbumPage({
             title: albumTitle,
             folderName,
-            imageFiles,
+            imageEntries,
         });
 
         await writeTextFile(rootDirectoryHandle, pageFileName, albumPage);
@@ -306,7 +319,7 @@ albumForm.addEventListener("submit", async (event) => {
             buildAlbumCard({
                 pageFileName,
                 folderName,
-                coverFileName,
+                coverStoredName: coverEntry ? coverEntry.storedName : imageEntries[0].storedName,
                 title: albumTitle,
             }),
             pageFileName

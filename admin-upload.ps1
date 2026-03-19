@@ -29,6 +29,12 @@ function Escape-Html {
     return $Value.Replace("&", "&amp;").Replace("<", "&lt;").Replace(">", "&gt;").Replace('"', "&quot;")
 }
 
+function Encode-AlbumPath {
+    param([string]$Value)
+
+    return [Convert]::ToBase64String([System.Text.Encoding]::UTF8.GetBytes($Value))
+}
+
 function Set-Status {
     param(
         [System.Windows.Forms.Label]$Label,
@@ -61,13 +67,15 @@ function Build-AlbumPageMarkup {
     param(
         [string]$AlbumTitle,
         [string]$FolderName,
-        [System.Collections.ArrayList]$ImageFiles
+        [System.Collections.ArrayList]$ImageEntries
     )
 
-    $cardMarkup = foreach ($file in $ImageFiles) {
+    $cardMarkup = foreach ($entry in $ImageEntries) {
+        $imagePath = "images/$FolderName/$($entry.StoredName)"
+        $encodedPath = Encode-AlbumPath $imagePath
 @"
     <div class="card">
-        <img src="images/$FolderName/$(Escape-Html $file.Name)" alt="sport foto">
+        <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" data-encoded-src="$encodedPath" alt="sport foto">
     </div>
 "@
     }
@@ -99,9 +107,7 @@ function Build-AlbumPageMarkup {
                 <a href="index.html">Home</a>
                 <a href="overmij.html">Over mij</a>
                 <a href="albums.html"><u>Albums</u></a>
-                <a href="schema.html">Schema</a>
                 <a href="social.html">Instagram</a>
-                <a href="downloads.html">Downloads</a>
                 <a href="contact.html">Contact</a>
             </div>
     </nav>
@@ -135,7 +141,6 @@ $cards
                 <li><a href="index.html">Home</a></li>
                 <li><a href="albums.html">Albums</a></li>
                 <li><a href="overmij.html">Over Mij</a></li>
-                <li><a href="schema.html">Schema</a></li>
             </ul>
         </div>
 
@@ -143,18 +148,27 @@ $cards
             <h3>Support</h3>
             <ul>
                 <li><a href="contact.html">Contact</a></li>
-                <li><a href="downloads.html">Downloads</a></li>
                 <li><a href="social.html">Instagram</a></li>
             </ul>
         </div>
     </div>
 </footer>
 
+<script src="album-locks.js"></script>
+<script src="album-access.js"></script>
 <script src="album-lightbox.js"></script>
 
 </body>
 </html>
 "@
+}
+
+function New-StoredImageName {
+    param([string]$OriginalName)
+
+    $extension = [System.IO.Path]::GetExtension($OriginalName).ToLowerInvariant()
+    $randomPart = ([guid]::NewGuid().ToString("N")).Substring(0, 20)
+    return "img-$randomPart$extension"
 }
 
 $form = New-Object System.Windows.Forms.Form
@@ -371,11 +385,18 @@ $createAlbumButton.Add_Click({
     try {
         New-Item -ItemType Directory -Force -Path $targetImageFolderPath | Out-Null
 
+        $imageEntries = New-Object System.Collections.ArrayList
         foreach ($file in $selectedFiles) {
-            Copy-Item -Path $file.FullName -Destination (Join-Path $targetImageFolderPath $file.Name) -Force
+            $entry = [pscustomobject]@{
+                SourceName = $file.Name
+                SourcePath = $file.FullName
+                StoredName = New-StoredImageName -OriginalName $file.Name
+            }
+            [void]$imageEntries.Add($entry)
+            Copy-Item -Path $entry.SourcePath -Destination (Join-Path $targetImageFolderPath $entry.StoredName) -Force
         }
 
-        $albumPageMarkup = Build-AlbumPageMarkup -AlbumTitle $albumTitle -FolderName $folderName -ImageFiles $selectedFiles
+        $albumPageMarkup = Build-AlbumPageMarkup -AlbumTitle $albumTitle -FolderName $folderName -ImageEntries $imageEntries
         [System.IO.File]::WriteAllText($albumPagePath, $albumPageMarkup, [System.Text.Encoding]::UTF8)
 
         $albumsHtml = [System.IO.File]::ReadAllText($albumsHtmlPath)
@@ -383,7 +404,12 @@ $createAlbumButton.Add_Click({
             throw "Deze album-link bestaat al in albums.html."
         }
 
-        $cardMarkup = Build-AlbumCardMarkup -PageFileName $pageFileName -FolderName $folderName -CoverFileName $coverFileName -AlbumTitle $albumTitle
+        $coverEntry = $imageEntries | Where-Object { $_.SourceName -eq $coverFileName } | Select-Object -First 1
+        if (-not $coverEntry) {
+            $coverEntry = $imageEntries | Select-Object -First 1
+        }
+
+        $cardMarkup = Build-AlbumCardMarkup -PageFileName $pageFileName -FolderName $folderName -CoverFileName $coverEntry.StoredName -AlbumTitle $albumTitle
         $marker = '<div class="grid">'
         if (-not $albumsHtml.Contains($marker)) {
             throw "Ik kon de album-grid in albums.html niet vinden."
