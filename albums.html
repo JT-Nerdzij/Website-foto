@@ -1,8 +1,11 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex, notranslate">
+    <meta name="googlebot" content="noindex, nofollow, noarchive, nosnippet, noimageindex, notranslate">
+    <meta name="referrer" content="no-referrer">
     <title>Albums - NoordzijMaaktFoto's</title>
     <link rel="stylesheet" href="albumspage.css">
 </head>
@@ -21,7 +24,7 @@
             <div class="menu">
                 <a href="index.html">Home</a>
                 <a href="overmij.html">Over mij</a>
-                <a href="albums.html"><u>Albums</u></a>
+                <a href="albums.html" class="active">Albums</a>
                 <a href="social.html">Instagram</a>
                 <a href="contact.html">Contact</a>
         </div>
@@ -30,6 +33,18 @@
 
 <div class="container">
     <h1 class="ablumtitlepagina">Albums</h1>
+        <div class="album-search">
+            <div class="album-search-field">
+                <span class="album-search-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" focusable="false">
+                        <circle cx="11" cy="11" r="6.5"></circle>
+                        <path d="M16 16L21 21"></path>
+                    </svg>
+                </span>
+                <input type="search" id="album-search-input" class="album-search-input" placeholder="Zoek" autocomplete="off">
+            </div>
+            <p id="album-search-empty" class="album-search-empty" hidden>Er zijn geen albums gevonden met die naam.</p>
+        </div>
         <div class="grid">
 
             <div class="card">
@@ -118,6 +133,33 @@
 
 <script src="album-locks.js"></script>
 <script src="album-access.js"></script>
+<script>
+    const albumSearchInput = document.getElementById("album-search-input");
+    const albumSearchEmpty = document.getElementById("album-search-empty");
+    const albumCards = Array.from(document.querySelectorAll(".grid .card"));
+
+    if (albumSearchInput) {
+        albumSearchInput.addEventListener("input", () => {
+            const query = albumSearchInput.value.trim().toLowerCase();
+            let visibleCount = 0;
+
+            albumCards.forEach((card) => {
+                const title = card.querySelector("h2")?.textContent.toLowerCase() || "";
+                const matches = title.includes(query);
+                card.hidden = !matches;
+
+                if (matches) {
+                    visibleCount += 1;
+                }
+            });
+
+            if (albumSearchEmpty) {
+                albumSearchEmpty.hidden = visibleCount !== 0;
+            }
+        });
+    }
+</script>
 
 </body>
 </html>
+

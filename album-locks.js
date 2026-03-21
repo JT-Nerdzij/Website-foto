@@ -8,5 +8,6 @@ window.ALBUM_LOCKS = {
     //     hint: "Vraag de code aan mij."
     // },
     "blackandwhite.html": { title: "blackandwhite.html", salt: "51821a2c6cf14955efb6787e4062e00a", hash: "1592de0c383a258d68fd643d2e7eee9540dc89e935413c8727f359d7beac7325"},
-    "pdkjc1-17-01-2026.html": { title: "pdkjc1-17-01-2026.html", salt: "bf5ad124c2e12e40220f0f6b9b97768f", hash: "590d3f7aa0715d02ee3a554f0dd4bc06b014173aa869aba71f03021f5acc1837", hint: "Vraag de code aan mij." },
+    "3cttilburgjellie.html": { title: "3cttilburgjellie.html", salt: "4270fedaa12ddf4a26efa9caa8da5b66", hash: "bb887b5bfa3da69c7db4621c19a0dea1eac5401bd0678a13ab472e86cef2a67b", hint: "Vraag de code aan mij." },
+    "pdkjc1-17-01-2026.html": { title: "pdkjc1-17-01-2026.html", salt: "85b566b45fa5e93de06ae98b271e1c33", hash: "b54ab32f00f3d2b801ebcf225bba82c8b7badcaedac3a5817180a0c81ed58226", hint: "Vraag de code aan mij." },
 };

@@ -35,26 +35,39 @@
             position: relative;
         }
 
-        .card.card-locked::after {
+        .card-lock-media {
+            position: relative;
+            display: block;
+        }
+
+        .card-lock-media::after {
             content: "";
             position: absolute;
-            inset: 15px 15px auto 15px;
-            height: calc(100% - 30px);
-            border-radius: 8px;
+            inset: 0;
+            border-radius: 5px;
             background: rgba(255, 255, 255, 0.82);
             pointer-events: none;
             z-index: 1;
         }
 
-        .card.card-locked img {
+        .card.card-locked .card-lock-media img {
             filter: grayscale(0.3) blur(3.5px);
         }
 
-        .card-lock-icon {
+        .card-lock-overlay {
             position: absolute;
-            top: 50%;
-            left: 50%;
+            inset: 0;
             z-index: 4;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 14px;
+            padding: 16px;
+            pointer-events: none;
+        }
+
+        .card-lock-icon {
             display: flex;
             align-items: center;
             justify-content: center;
@@ -64,7 +77,6 @@
             background-color: rgba(255, 255, 255, 0.82);
             color: #111111;
             font-size: 38px;
-            transform: translate(-50%, -95%);
             box-shadow: 0 6px 18px rgba(0, 0, 0, 0.05);
             backdrop-filter: blur(8px);
         }
@@ -77,14 +89,10 @@
         }
 
         .card.card-locked .card-lock-button {
-            position: absolute;
-            left: 50%;
-            top: 50%;
-            transform: translate(-50%, calc(-95% + 82px));
-            z-index: 4;
             display: inline-flex;
             align-items: center;
             justify-content: center;
+            width: fit-content;
             padding: 10px 14px;
             border-radius: 12px;
             background-color: rgba(255, 255, 255, 0.72);
@@ -93,19 +101,14 @@
             font-weight: bold;
             box-shadow: 0 6px 18px rgba(0, 0, 0, 0.05);
             backdrop-filter: blur(8px);
+            pointer-events: auto;
+            transition: transform 0.3s ease, background-color 0.3s ease, color 0.3s ease;
         }
 
         .card.card-locked .card-lock-button:hover {
-            background-color: rgba(255, 255, 255, 0.88);
-        }
-
-        .card.card-locked h2 {
-            position: relative;
-            z-index: 4;
-        }
-
-        .card.card-locked a {
-            pointer-events: none;
+            background-color: #CBA135;
+            color: #111111;
+            transform: scale(1.025);
         }
 
         .album-lock-overlay {
@@ -208,6 +211,11 @@
             .card-lock-icon svg {
                 width: 30px;
                 height: 30px;
+            }
+
+            .card.card-locked .card-lock-button {
+                padding: 8px 12px;
+                font-size: 13px;
             }
         }
     `;
@@ -333,12 +341,12 @@
         const albumCards = Array.from(document.querySelectorAll(".grid .card"));
 
         albumCards.forEach((card) => {
-            const anchor = card.querySelector("a[href$='.html']");
-            if (!anchor) {
+            const mediaAnchor = card.querySelector("a[href$='.html']");
+            if (!mediaAnchor) {
                 return;
             }
 
-            const targetPage = anchor.getAttribute("href");
+            const targetPage = mediaAnchor.getAttribute("href");
             const lock = getLock(targetPage);
             if (!lock) {
                 return;
@@ -346,6 +354,10 @@
 
             const title = getDisplayTitle(lock, targetPage, card.querySelector("h2")?.textContent || "");
             card.classList.add("card-locked");
+            mediaAnchor.classList.add("card-lock-media");
+
+            const overlay = document.createElement("div");
+            overlay.className = "card-lock-overlay";
 
             const icon = document.createElement("div");
             icon.className = "card-lock-icon";
@@ -371,7 +383,8 @@
                 });
             });
 
-            card.append(icon, button);
+            overlay.append(icon, button);
+            mediaAnchor.appendChild(overlay);
         });
     };
 
