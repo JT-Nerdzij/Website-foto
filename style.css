@@ -11,6 +11,11 @@ body {
     margin: 0;
 }
 
+.error-body {
+    min-height: 100vh;
+    background: #f7f8fb;
+}
+
 
 header {
     background-color: #ffffff;
@@ -71,8 +76,12 @@ nav {
     color: #CBA135;
 }
 
-.menu a.active {
-    color: #CBA135;
+.menu a.active,
+.menu a.active:visited,
+.menu a.active:hover,
+.menu a.active:focus {
+    color: #CBA135 !important;
+    text-decoration: none !important;
 }
 
 .container {
@@ -131,6 +140,118 @@ form {
     gap: 30px;
     align-items: stretch;
     margin-top: 30px;
+}
+
+.error-page {
+    width: 100%;
+    min-height: 100vh;
+    max-width: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    margin: 0;
+}
+
+.error-hero {
+    position: relative;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding: 0;
+}
+
+.error-glow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: min(78vw, 820px);
+    aspect-ratio: 1 / 1;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    background:
+        radial-gradient(circle, rgba(131, 183, 255, 0.5) 0%, rgba(131, 183, 255, 0.26) 32%, rgba(131, 183, 255, 0.12) 54%, rgba(131, 183, 255, 0.04) 68%, rgba(131, 183, 255, 0) 80%);
+    filter: blur(10px);
+    pointer-events: none;
+}
+
+.error-card {
+    position: relative;
+    z-index: 1;
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 0 24px;
+    text-align: center;
+    background-color: transparent;
+}
+
+.error-code {
+    display: block;
+    margin: 0 0 24px;
+    padding: 0;
+    color: #22489f;
+    font-size: clamp(150px, 20vw, 235px);
+    line-height: 0.8;
+    font-weight: 900;
+    letter-spacing: -0.06em;
+}
+
+.error-card h1 {
+    margin: 0 0 18px;
+    font-size: clamp(34px, 3.8vw, 56px);
+    color: #172544;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+}
+
+.error-card p {
+    max-width: 640px;
+    margin: 0 auto 14px;
+    font-size: 18px;
+    line-height: 1.7;
+    color: #2c3852;
+}
+
+.error-actions {
+    display: flex;
+    justify-content: center;
+    gap: 14px;
+    margin-top: 40px;
+    flex-wrap: wrap;
+}
+
+.error-actions .button {
+    margin: 0;
+    min-width: 156px;
+    padding: 15px 30px;
+    border-radius: 999px;
+    font-weight: 700;
+    font-size: 15px;
+    transform: none;
+    box-shadow: none;
+}
+
+.error-button-primary {
+    background-color: #141f39;
+    color: #ffffff;
+    box-shadow: 0 10px 24px rgba(20, 31, 57, 0.14);
+}
+
+.error-button-primary:hover {
+    background-color: #0f1930;
+    transform: translateY(-1px);
+}
+
+.button-secondary {
+    background-color: #FFFFFF;
+    color: #18233d;
+    border: 1px solid rgba(24, 35, 61, 0.06);
+    box-shadow: 0 10px 24px rgba(10, 22, 49, 0.06);
+}
+
+.button-secondary:hover {
+    background-color: #F4F7FC;
+    transform: translateY(-1px);
 }
 
 .contact-intro {
@@ -1033,6 +1154,32 @@ p{
 
     .container {
         margin: 40px auto;
+    }
+
+    .error-card {
+        padding: 0 8px;
+    }
+
+    .error-hero {
+        padding: 0;
+    }
+
+    .error-glow {
+        width: min(145vw, 680px);
+        transform: translate(-50%, -50%);
+    }
+
+    .error-actions {
+        gap: 12px;
+    }
+
+    .error-actions .button {
+        width: 100%;
+        max-width: 280px;
+    }
+
+    .error-card p {
+        font-size: 17px;
     }
 
     .uitlegtekst h1,

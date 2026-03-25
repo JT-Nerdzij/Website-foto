@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex, notranslate">
+    <meta name="googlebot" content="noindex, nofollow, noarchive, nosnippet, noimageindex, notranslate">
+    <meta name="referrer" content="no-referrer">
+    <title>404 - Pagina niet gevonden | NoordzijMaaktFoto's</title>
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .error-body *,
+        .error-body *::before,
+        .error-body *::after {
+            box-sizing: border-box;
+        }
+
+        .error-body {
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            font-family: Arial, sans-serif;
+            background: #F4F4F4;
+            color: #111111;
+        }
+
+        .error-page {
+            position: relative;
+            flex: 1;
+            min-height: calc(100vh - 180px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px 20px 36px;
+        }
+
+        .error-glow {
+            position: absolute;
+            left: 50%;
+            top: 52%;
+            width: min(72vw, 1040px);
+            aspect-ratio: 1 / 1;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(0, 0, 0, 0.06) 0%, rgba(0, 0, 0, 0.035) 28%, rgba(0, 0, 0, 0.018) 48%, rgba(0, 0, 0, 0.008) 62%, rgba(0, 0, 0, 0) 78%);
+            filter: blur(34px);
+            pointer-events: none;
+        }
+
+        .error-card {
+            position: relative;
+            width: 100%;
+            max-width: 980px;
+            text-align: center;
+        }
+
+        .error-card > *:not(.error-glow) {
+            position: relative;
+            z-index: 1;
+        }
+
+        .error-code {
+            display: block;
+            width: 100%;
+            margin: 0 auto;
+            font-size: 170px !important;
+            line-height: 0.9 !important;
+            padding: 0 0 10px;
+            font-weight: 900 !important;
+            letter-spacing: -0.08em !important;
+            background: linear-gradient(180deg, #e2bb58 0%, #CBA135 45%, #b48920 100%);
+            color: transparent !important;
+            -webkit-background-clip: text;
+            background-clip: text;
+        }
+
+        .error-card h1 {
+            margin-top: 26px;
+            font-size: 42px;
+            line-height: 1.05;
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            color: #000000 !important;
+        }
+
+        .error-text {
+            max-width: 760px;
+            margin: 24px auto 0;
+            font-size: 21px;
+            line-height: 1.7;
+            color: #2b2b2b;
+        }
+
+        .error-actions {
+            display: flex;
+            justify-content: center;
+            gap: 14px;
+            margin-top: 48px;
+            flex-wrap: wrap;
+        }
+
+        .error-actions .button {
+            margin: 0;
+            border-radius: 10px;
+            padding: 9px 18px;
+            font-size: 15px;
+        }
+
+        @media (max-width: 900px) {
+            .error-glow {
+                width: min(110vw, 900px);
+            }
+
+            .error-code {
+                font-size: 240px !important;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .error-page {
+                padding: 40px 18px;
+            }
+
+            .error-glow {
+                width: 125vw;
+                top: 46%;
+            }
+
+            .error-code {
+                font-size: 170px !important;
+            }
+
+            .error-card h1 {
+                margin-top: 18px;
+                font-size: 32px;
+            }
+
+            .error-text {
+                font-size: 18px;
+            }
+
+            .error-actions {
+                gap: 12px;
+            }
+
+            .error-actions .button {
+                width: 100%;
+                max-width: 260px;
+            }
+        }
+    </style>
+</head>
+
+<body class="error-body">
+<header>
+    <nav>
+        <div class="logo">
+            <a href="index.html">
+                <img src="images/A7B6644A-5A80-4DDD-BE12-BBC40FE37A35.png" alt="Logo">
+                NoordzijMaaktFoto's</a>
+        </div>
+        <input type="checkbox" id="menu-toggle" class="menu-toggle">
+        <label for="menu-toggle" class="menu-button">Menu</label>
+            <div class="menu">
+                <a href="index.html">Home</a>
+                <a href="overmij.html">Over mij</a>
+                <a href="albums.html">Albums</a>
+                <a href="social.html">Instagram</a>
+                <a href="contact.html">Contact</a>
+        </div>
+    </nav>
+</header>
+
+<main class="error-page">
+    <section class="error-card">
+        <div class="error-glow" aria-hidden="true"></div>
+        <p class="error-code">404</p>
+        <h1>Pagina niet gevonden</h1>
+        <p class="error-text">
+            Oeps! De pagina die je zoekt bestaat niet. Het kan zijn dat deze is
+            verplaatst of verwijderd.
+        </p>
+        <div class="error-actions">
+            <a href="index.html" class="button">Terug naar home</a>
+            <a href="contact.html" class="button">Contact opnemen</a>
+        </div>
+    </section>
+</main>
+
+<footer class="main-footer">
+    <div class="footer-container">
+        <div class="footer-column brand">
+            <div class="footer-logo">
+                <img src="images/A7B6644A-5A80-4DDD-BE12-BBC40FE37A35.png" alt="Logo">
+                <span>NoordzijMaaktFoto's</span>
+                <p>&copy; 2026</p>
+            </div>
+        </div>
+
+        <div class="footer-column">
+            <h3>Navigatie</h3>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="albums.html">Albums</a></li>
+                <li><a href="overmij.html">Over Mij</a></li>
+            </ul>
+        </div>
+
+        <div class="footer-column">
+            <h3>Support</h3>
+            <ul>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="social.html">Instagram</a></li>
+            </ul>
+        </div>
+    </div>
+</footer>
+</body>
+</html>

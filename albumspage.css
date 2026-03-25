@@ -69,8 +69,12 @@ nav {
     color: #CBA135;
 }
 
-.menu a.active {
-    color: #CBA135;
+.menu a.active,
+.menu a.active:visited,
+.menu a.active:hover,
+.menu a.active:focus {
+    color: #CBA135 !important;
+    text-decoration: none !important;
 }
 
 .card {
