@@ -22,7 +22,7 @@ function Get-Sha256Hex {
     }
 }
 
-$pageFile = Read-Host "Welke albumpagina wil je vergrendelen? (bijv. zovoc-jb1-pdk-jb1.html)"
+$pageFile = Read-Host "Welke albumroute wil je vergrendelen? (bijv. albums/zovoc-jb1-pdk-jb1 of zovoc-jb1-pdk-jb1.html)"
 if ([string]::IsNullOrWhiteSpace($pageFile)) {
     Write-Host "Geen paginanaam opgegeven." -ForegroundColor Red
     exit 1

@@ -7,7 +7,7 @@ window.ALBUM_LOCKS = {
     //     hash: "9a3c2a8ed0eaa0b6a97b3f41244aa7ce78c934afddf2fb3e8fdb35dfbaf5ce58",
     //     hint: "Vraag de code aan mij."
     // },
-    "blackandwhite.html": { title: "blackandwhite.html", salt: "51821a2c6cf14955efb6787e4062e00a", hash: "1592de0c383a258d68fd643d2e7eee9540dc89e935413c8727f359d7beac7325"},
-    "3cttilburgjellie.html": { title: "3cttilburgjellie.html", salt: "4270fedaa12ddf4a26efa9caa8da5b66", hash: "bb887b5bfa3da69c7db4621c19a0dea1eac5401bd0678a13ab472e86cef2a67b", hint: "Vraag de code aan mij." },
-    "pdkjc1-17-01-2026.html": { title: "pdkjc1-17-01-2026.html", salt: "85b566b45fa5e93de06ae98b271e1c33", hash: "b54ab32f00f3d2b801ebcf225bba82c8b7badcaedac3a5817180a0c81ed58226", hint: "Vraag de code aan mij." },
+    "albums/blackandwhite": { title: "blackandwhite", salt: "51821a2c6cf14955efb6787e4062e00a", hash: "1592de0c383a258d68fd643d2e7eee9540dc89e935413c8727f359d7beac7325"},
+    "albums/3cttilburgjellie": { title: "3cttilburgjellie", salt: "4270fedaa12ddf4a26efa9caa8da5b66", hash: "bb887b5bfa3da69c7db4621c19a0dea1eac5401bd0678a13ab472e86cef2a67b", hint: "Vraag de code aan mij." },
+    "albums/pdkjc1-17-01-2026": { title: "pdkjc1-17-01-2026", salt: "85b566b45fa5e93de06ae98b271e1c33", hash: "b54ab32f00f3d2b801ebcf225bba82c8b7badcaedac3a5817180a0c81ed58226", hint: "Vraag de code aan mij." },
 };

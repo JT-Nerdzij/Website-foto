@@ -79,10 +79,10 @@ nav {
     text-decoration: none !important;
 }
 
-.menu a[href="albums.html"],
-.menu a[href="albums.html"]:visited,
-.menu a[href="albums.html"]:hover,
-.menu a[href="albums.html"]:focus {
+.menu a[href="/albums/"],
+.menu a[href="/albums/"]:visited,
+.menu a[href="/albums/"]:hover,
+.menu a[href="/albums/"]:focus {
     color: #CBA135 !important;
     text-decoration: none !important;
 }

@@ -1,16 +1,67 @@
 (function () {
     const locks = window.ALBUM_LOCKS || {};
-    const currentPage = window.location.pathname.split("/").pop() || "index.html";
+
+    const normalizeRouteKey = (value) => {
+        if (!value) {
+            return "";
+        }
+
+        let pathname = String(value).trim();
+
+        try {
+            pathname = new URL(pathname, window.location.origin).pathname;
+        } catch {
+            pathname = pathname.split("?")[0].split("#")[0];
+        }
+
+        pathname = pathname.replace(/\\/g, "/");
+
+        if (pathname === "/" || pathname === "/index.html" || pathname === "index.html") {
+            return "index";
+        }
+
+        pathname = pathname.replace(/^\/+|\/+$/g, "");
+
+        if (!pathname) {
+            return "index";
+        }
+
+        if (pathname.endsWith("/index.html")) {
+            pathname = pathname.slice(0, -"/index.html".length);
+        }
+
+        if (pathname.startsWith("albums/")) {
+            return pathname;
+        }
+
+        if (pathname.endsWith(".html")) {
+            pathname = pathname.slice(0, -".html".length);
+        }
+
+        return pathname;
+    };
+
+    const currentPage = normalizeRouteKey(window.location.pathname);
 
     const getLock = (page) => {
-        const entry = locks[page];
-        if (!entry) {
+        const normalizedPage = normalizeRouteKey(page);
+        if (!normalizedPage) {
             return null;
         }
-        if (!entry.hash && !entry.code) {
-            return null;
+
+        for (const [entryKey, entry] of Object.entries(locks)) {
+            if (normalizeRouteKey(entryKey) !== normalizedPage) {
+                continue;
+            }
+
+            if (!entry.hash && !entry.code) {
+                return null;
+            }
+
+            return entry;
         }
-        return entry;
+
+        return null;
     };
 
     const getDisplayTitle = (lock, page, fallbackTitle = "") => {
@@ -253,7 +304,7 @@
             const encodedValue = image.getAttribute("data-encoded-src");
             const decodedValue = decodeAlbumPath(encodedValue || "");
             if (decodedValue) {
-                image.src = decodedValue;
+                image.src = decodedValue.startsWith("/") ? decodedValue : `/${decodedValue}`;
             }
         });
     };
@@ -341,12 +392,12 @@
         const albumCards = Array.from(document.querySelectorAll(".grid .card"));
 
         albumCards.forEach((card) => {
-            const mediaAnchor = card.querySelector("a[href$='.html']");
+            const mediaAnchor = card.querySelector("a[href]");
             if (!mediaAnchor) {
                 return;
             }
 
-            const targetPage = mediaAnchor.getAttribute("href");
+            const targetPage = normalizeRouteKey(mediaAnchor.getAttribute("href"));
             const lock = getLock(targetPage);
             if (!lock) {
                 return;
@@ -376,7 +427,7 @@
                         const success = await verifyCode(lock, value);
                         if (success) {
                             setPendingUnlock(targetPage);
-                            window.location.href = targetPage;
+                            window.location.href = mediaAnchor.href;
                         }
                         return success;
                     },
@@ -418,7 +469,7 @@
             secondaryAction: {
                 label: "Terug naar albums",
                 onClick: () => {
-                    window.location.href = "albums.html";
+                    window.location.href = "/albums/";
                 },
             },
         });
