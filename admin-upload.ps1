@@ -46,9 +46,32 @@ function Set-Status {
     $Label.ForeColor = $Color
 }
 
+function Build-LegacyRedirectMarkup {
+    param([string]$TargetRoute)
+
+    return @"
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Doorsturen | NoordzijMaaktFoto's</title>
+    <link rel="canonical" href="https://noordzijmaaktfotos.nl/$TargetRoute/">
+    <meta http-equiv="refresh" content="0; url=/$TargetRoute/">
+    <script>
+        window.location.replace("/$TargetRoute/");
+    </script>
+</head>
+<body>
+<p>Je wordt doorgestuurd. <a href="/$TargetRoute/">Klik hier als dat niet automatisch gebeurt</a>.</p>
+</body>
+</html>
+"@
+}
+
 function Build-AlbumCardMarkup {
     param(
-        [string]$PageFileName,
+        [string]$RouteSlug,
         [string]$FolderName,
         [string]$CoverFileName,
         [string]$AlbumTitle
@@ -56,8 +79,8 @@ function Build-AlbumCardMarkup {
 
     return @"
             <div class="card">
-                <a href="$(Escape-Html $PageFileName)"><img src="images/$(Escape-Html $FolderName)/$(Escape-Html $CoverFileName)" alt="Something went wrong"></a>
-                <a href="$(Escape-Html $PageFileName)"><h2>$(Escape-Html $AlbumTitle)</h2></a>
+                <a href="/albums/$(Escape-Html $RouteSlug)/"><img src="/images/$(Escape-Html $FolderName)/$(Escape-Html $CoverFileName)" alt="Something went wrong"></a>
+                <a href="/albums/$(Escape-Html $RouteSlug)/"><h2>$(Escape-Html $AlbumTitle)</h2></a>
             </div>
 
 "@
@@ -71,7 +94,7 @@ function Build-AlbumPageMarkup {
     )
 
     $cardMarkup = foreach ($entry in $ImageEntries) {
-        $imagePath = "images/$FolderName/$($entry.StoredName)"
+        $imagePath = "/images/$FolderName/$($entry.StoredName)"
         $encodedPath = Encode-AlbumPath $imagePath
 @"
     <div class="card">
@@ -84,12 +107,13 @@ function Build-AlbumPageMarkup {
 
     return @"
 <!DOCTYPE html>
-<html>
+<html lang="nl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>$(Escape-Html $AlbumTitle) - NoordzijMaaktFoto's</title>
-    <link rel="stylesheet" href="style-album.css">
+    <link rel="stylesheet" href="/style-album.css">
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
 </head>
 
 <body>
@@ -97,18 +121,18 @@ function Build-AlbumPageMarkup {
 <header>
     <nav>
         <div class="logo">
-            <a href="index.html">
-                <img src="images/A7B6644A-5A80-4DDD-BE12-BBC40FE37A35.png" alt="Logo"> 
+            <a href="/">
+                <img src="/images/A7B6644A-5A80-4DDD-BE12-BBC40FE37A35.png" alt="Logo">
                 NoordzijMaaktFoto's</a>
         </div>
         <input type="checkbox" id="menu-toggle" class="menu-toggle">
         <label for="menu-toggle" class="menu-button">Menu</label>
             <div class="menu">
-                <a href="index.html">Home</a>
-                <a href="overmij.html">Over mij</a>
-                <a href="albums.html"><u>Albums</u></a>
-                <a href="social.html">Instagram</a>
-                <a href="contact.html">Contact</a>
+                <a href="/">Home</a>
+                <a href="/overmij/">Over mij</a>
+                <a href="/albums/" class="active">Albums</a>
+                <a href="/social/">Instagram</a>
+                <a href="/contact/">Contact</a>
             </div>
     </nav>
 </header>
@@ -116,7 +140,7 @@ function Build-AlbumPageMarkup {
 <div class="container">
     <div class="page-header">
         <h1>$(Escape-Html $AlbumTitle)</h1>
-        <a href="albums.html" class="terugknop"><h3>Back</h3></a>
+        <a href="/albums/" class="terugknop"><h3>Back</h3></a>
     </div>
 
 <div class="photo-grid">
@@ -129,7 +153,7 @@ $cards
     <div class="footer-container">
         <div class="footer-column brand">
             <div class="footer-logo">
-                <img src="images/A7B6644A-5A80-4DDD-BE12-BBC40FE37A35.png" alt="Logo">
+                <img src="/images/A7B6644A-5A80-4DDD-BE12-BBC40FE37A35.png" alt="Logo">
                 <span>NoordzijMaaktFoto's</span>
                 <p>&copy; 2026</p>
             </div>
@@ -138,25 +162,25 @@ $cards
         <div class="footer-column">
             <h3>Navigatie</h3>
             <ul>
-                <li><a href="index.html">Home</a></li>
-                <li><a href="albums.html">Albums</a></li>
-                <li><a href="overmij.html">Over Mij</a></li>
+                <li><a href="/">Home</a></li>
+                <li><a href="/albums/">Albums</a></li>
+                <li><a href="/overmij/">Over Mij</a></li>
             </ul>
         </div>
 
         <div class="footer-column">
             <h3>Support</h3>
             <ul>
-                <li><a href="contact.html">Contact</a></li>
-                <li><a href="social.html">Instagram</a></li>
+                <li><a href="/contact/">Contact</a></li>
+                <li><a href="/social/">Instagram</a></li>
             </ul>
         </div>
     </div>
 </footer>
 
-<script src="album-locks.js"></script>
-<script src="album-access.js"></script>
-<script src="album-lightbox.js"></script>
+<script src="/album-locks.js"></script>
+<script src="/album-access.js"></script>
+<script src="/album-lightbox.js"></script>
 
 </body>
 </html>
@@ -186,7 +210,7 @@ $titleLabel.Location = New-Object System.Drawing.Point(24, 20)
 $form.Controls.Add($titleLabel)
 
 $infoLabel = New-Object System.Windows.Forms.Label
-$infoLabel.Text = "Kies je projectmap, vul de albumgegevens in en selecteer de foto's. Dit paneel maakt daarna automatisch een nieuwe albumpagina en voegt het album toe aan albums.html."
+$infoLabel.Text = "Kies je projectmap, vul de albumgegevens in en selecteer de foto's. Dit paneel maakt daarna automatisch een nieuwe albumpagina in /albums/ en voegt het album toe aan albums/index.html."
 $infoLabel.AutoSize = $false
 $infoLabel.Size = New-Object System.Drawing.Size(790, 48)
 $infoLabel.Location = New-Object System.Drawing.Point(24, 58)
@@ -223,7 +247,7 @@ $albumTitleBox.Location = New-Object System.Drawing.Point(24, 228)
 $form.Controls.Add($albumTitleBox)
 
 $albumFileLabel = New-Object System.Windows.Forms.Label
-$albumFileLabel.Text = "Bestandsnaam pagina"
+$albumFileLabel.Text = "Route van album"
 $albumFileLabel.AutoSize = $true
 $albumFileLabel.Location = New-Object System.Drawing.Point(432, 205)
 $form.Controls.Add($albumFileLabel)
@@ -251,7 +275,7 @@ $selectImagesButton.Location = New-Object System.Drawing.Point(432, 297)
 $form.Controls.Add($selectImagesButton)
 
 $coverLabel = New-Object System.Windows.Forms.Label
-$coverLabel.Text = "Omslagfoto voor albums.html"
+$coverLabel.Text = "Omslagfoto voor albums/index.html"
 $coverLabel.AutoSize = $true
 $coverLabel.Location = New-Object System.Drawing.Point(24, 346)
 $form.Controls.Add($coverLabel)
@@ -300,7 +324,7 @@ $autoUpdateFolderName = $true
 $albumTitleBox.Add_TextChanged({
     $slug = Convert-ToSlug $albumTitleBox.Text
     if ($autoUpdateFileName) {
-        $albumFileBox.Text = if ($slug) { "$slug.html" } else { "" }
+        $albumFileBox.Text = $slug
     }
     if ($autoUpdateFolderName) {
         $albumFolderBox.Text = $slug
@@ -309,8 +333,7 @@ $albumTitleBox.Add_TextChanged({
 
 $albumFileBox.Add_TextChanged({
     $expected = Convert-ToSlug $albumTitleBox.Text
-    $expectedValue = if ($expected) { "$expected.html" } else { "" }
-    $autoUpdateFileName = ($albumFileBox.Text -eq "" -or $albumFileBox.Text -eq $expectedValue)
+    $autoUpdateFileName = ($albumFileBox.Text -eq "" -or $albumFileBox.Text -eq $expected)
 })
 
 $albumFolderBox.Add_TextChanged({
@@ -348,13 +371,13 @@ $selectImagesButton.Add_Click({
 
 $createAlbumButton.Add_Click({
     $albumTitle = $albumTitleBox.Text.Trim()
-    $pageFileName = $albumFileBox.Text.Trim()
+    $routeSlug = Convert-ToSlug $albumFileBox.Text.Trim()
     $folderName = $albumFolderBox.Text.Trim()
     $coverFileName = [string]$coverComboBox.SelectedItem
     $projectPath = $projectPathBox.Text.Trim()
 
     if ([string]::IsNullOrWhiteSpace($albumTitle) -or
-        [string]::IsNullOrWhiteSpace($pageFileName) -or
+        [string]::IsNullOrWhiteSpace($routeSlug) -or
         [string]::IsNullOrWhiteSpace($folderName) -or
         $selectedFiles.Count -eq 0 -or
         [string]::IsNullOrWhiteSpace($coverFileName)) {
@@ -362,28 +385,29 @@ $createAlbumButton.Add_Click({
         return
     }
 
-    if (-not $pageFileName.EndsWith(".html")) {
-        $pageFileName = "$pageFileName.html"
-        $albumFileBox.Text = $pageFileName
-    }
-
-    $albumsHtmlPath = Join-Path $projectPath "albums.html"
+    $albumsHtmlPath = Join-Path $projectPath "albums\index.html"
     $imagesPath = Join-Path $projectPath "images"
     $targetImageFolderPath = Join-Path $imagesPath $folderName
-    $albumPagePath = Join-Path $projectPath $pageFileName
+    $albumRouteDirectoryPath = Join-Path $projectPath "albums\$routeSlug"
+    $albumPagePath = Join-Path $albumRouteDirectoryPath "index.html"
+    $legacyDirectoryPath = Join-Path $projectPath $routeSlug
+    $legacyDirectoryIndexPath = Join-Path $legacyDirectoryPath "index.html"
+    $legacyFilePath = Join-Path $projectPath "$routeSlug.html"
 
     if (-not (Test-Path $albumsHtmlPath)) {
-        Set-Status -Label $resultLabel -Message "albums.html is niet gevonden in deze map." -Color ([System.Drawing.Color]::FromArgb(162, 45, 45))
+        Set-Status -Label $resultLabel -Message "albums/index.html is niet gevonden in deze map." -Color ([System.Drawing.Color]::FromArgb(162, 45, 45))
         return
     }
 
-    if (Test-Path $albumPagePath) {
-        Set-Status -Label $resultLabel -Message "Er bestaat al een pagina met deze bestandsnaam." -Color ([System.Drawing.Color]::FromArgb(162, 45, 45))
+    if (Test-Path $albumRouteDirectoryPath) {
+        Set-Status -Label $resultLabel -Message "Er bestaat al een album met deze route." -Color ([System.Drawing.Color]::FromArgb(162, 45, 45))
         return
     }
 
     try {
         New-Item -ItemType Directory -Force -Path $targetImageFolderPath | Out-Null
+        New-Item -ItemType Directory -Force -Path $albumRouteDirectoryPath | Out-Null
+        New-Item -ItemType Directory -Force -Path $legacyDirectoryPath | Out-Null
 
         $imageEntries = New-Object System.Collections.ArrayList
         foreach ($file in $selectedFiles) {
@@ -399,9 +423,13 @@ $createAlbumButton.Add_Click({
         $albumPageMarkup = Build-AlbumPageMarkup -AlbumTitle $albumTitle -FolderName $folderName -ImageEntries $imageEntries
         [System.IO.File]::WriteAllText($albumPagePath, $albumPageMarkup, [System.Text.Encoding]::UTF8)
 
+        $redirectMarkup = Build-LegacyRedirectMarkup -TargetRoute "albums/$routeSlug"
+        [System.IO.File]::WriteAllText($legacyDirectoryIndexPath, $redirectMarkup, [System.Text.Encoding]::UTF8)
+        [System.IO.File]::WriteAllText($legacyFilePath, $redirectMarkup, [System.Text.Encoding]::UTF8)
+
         $albumsHtml = [System.IO.File]::ReadAllText($albumsHtmlPath)
-        if ($albumsHtml.Contains("href=""$pageFileName""")) {
-            throw "Deze album-link bestaat al in albums.html."
+        if ($albumsHtml.Contains("href=""/albums/$routeSlug/""")) {
+            throw "Deze album-link bestaat al in albums/index.html."
         }
 
         $coverEntry = $imageEntries | Where-Object { $_.SourceName -eq $coverFileName } | Select-Object -First 1
@@ -409,10 +437,10 @@ $createAlbumButton.Add_Click({
             $coverEntry = $imageEntries | Select-Object -First 1
         }
 
-        $cardMarkup = Build-AlbumCardMarkup -PageFileName $pageFileName -FolderName $folderName -CoverFileName $coverEntry.StoredName -AlbumTitle $albumTitle
+        $cardMarkup = Build-AlbumCardMarkup -RouteSlug $routeSlug -FolderName $folderName -CoverFileName $coverEntry.StoredName -AlbumTitle $albumTitle
         $marker = '<div class="grid">'
         if (-not $albumsHtml.Contains($marker)) {
-            throw "Ik kon de album-grid in albums.html niet vinden."
+            throw "Ik kon de album-grid in albums/index.html niet vinden."
         }
 
         $updatedAlbumsHtml = $albumsHtml.Replace($marker, "$marker`r`n`r`n$cardMarkup")
@@ -420,7 +448,7 @@ $createAlbumButton.Add_Click({
 
         Set-Status -Label $resultLabel -Message "Album succesvol aangemaakt. Vergeet niet je site daarna te uploaden." -Color ([System.Drawing.Color]::FromArgb(17, 108, 50))
         [System.Windows.Forms.MessageBox]::Show(
-            "Klaar.`r`n`r`nPagina: $pageFileName`r`nFotomap: images/$folderName`r`nAlbums-overzicht: bijgewerkt",
+            "Klaar.`r`n`r`nNieuwe route: /albums/$routeSlug/`r`nLegacy redirects: /$routeSlug/ en $routeSlug.html`r`nFotomap: images/$folderName`r`nAlbums-overzicht: bijgewerkt",
             "Album aangemaakt",
             [System.Windows.Forms.MessageBoxButtons]::OK,
             [System.Windows.Forms.MessageBoxIcon]::Information

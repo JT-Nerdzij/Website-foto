@@ -3,6 +3,32 @@ param()
 $projectRoot = Split-Path -Parent $MyInvocation.MyCommand.Path
 $lockFile = Join-Path $projectRoot "album-locks.js"
 
+function Normalize-AlbumRoute {
+    param([string]$Value)
+
+    if ([string]::IsNullOrWhiteSpace($Value)) {
+        return ""
+    }
+
+    $route = $Value.Trim().Replace("\", "/")
+    $route = $route -replace "^https?://[^/]+/", ""
+    $route = $route.Trim("/")
+
+    if ($route.EndsWith("/index.html")) {
+        $route = $route.Substring(0, $route.Length - "/index.html".Length)
+    }
+
+    if ($route.EndsWith(".html")) {
+        $route = $route.Substring(0, $route.Length - ".html".Length)
+    }
+
+    if (-not $route.StartsWith("albums/")) {
+        $route = "albums/$route"
+    }
+
+    return $route.Trim("/")
+}
+
 function Get-RandomSalt {
     $bytes = New-Object byte[] 16
     [System.Security.Cryptography.RandomNumberGenerator]::Create().GetBytes($bytes)
@@ -28,7 +54,13 @@ if ([string]::IsNullOrWhiteSpace($pageFile)) {
     exit 1
 }
 
-$albumTitle = Read-Host "Welke titel wil je tonen in het ontgrendelscherm? (leeg = paginanaam)"
+$normalizedRoute = Normalize-AlbumRoute $pageFile
+if ([string]::IsNullOrWhiteSpace($normalizedRoute)) {
+    Write-Host "Geen geldige albumroute opgegeven." -ForegroundColor Red
+    exit 1
+}
+
+$albumTitle = Read-Host "Welke titel wil je tonen in het ontgrendelscherm? (leeg = route)"
 $hint = Read-Host "Welke hint wil je tonen? (optioneel)"
 $code = Read-Host "Welke toegangscode wil je instellen?"
 
@@ -44,13 +76,13 @@ if (-not (Test-Path $lockFile)) {
 
 $salt = Get-RandomSalt
 $hash = Get-Sha256Hex "${salt}:$code"
-$titleValue = if ([string]::IsNullOrWhiteSpace($albumTitle)) { $pageFile } else { $albumTitle }
+$titleValue = if ([string]::IsNullOrWhiteSpace($albumTitle)) { $normalizedRoute } else { $albumTitle }
 $hintValue = if ([string]::IsNullOrWhiteSpace($hint)) { "Vraag de code aan mij." } else { $hint }
 
-$entry = "`"$pageFile`": { title: `"$titleValue`", salt: `"$salt`", hash: `"$hash`", hint: `"$hintValue`" },"
+$entry = "`"$normalizedRoute`": { title: `"$titleValue`", salt: `"$salt`", hash: `"$hash`", hint: `"$hintValue`" },"
 $content = Get-Content -Raw -Path $lockFile
 
-$escapedPageFile = [regex]::Escape($pageFile)
+$escapedPageFile = [regex]::Escape($normalizedRoute)
 $pattern = "(?m)^\s*`"$escapedPageFile`"\s*:\s*\{[^\r\n]*\},?\s*$"
 
 if ([regex]::IsMatch($content, $pattern)) {
@@ -63,6 +95,6 @@ Set-Content -Path $lockFile -Value $content -NoNewline
 
 Write-Host ""
 Write-Host "Lock opgeslagen in album-locks.js" -ForegroundColor Green
-Write-Host "Pagina : $pageFile"
+Write-Host "Pagina : $normalizedRoute"
 Write-Host "Titel  : $titleValue"
 Write-Host "Hint   : $hintValue"
