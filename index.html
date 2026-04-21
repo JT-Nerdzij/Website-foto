@@ -8,7 +8,8 @@
     <meta name="referrer" content="no-referrer">
     <title>NoordzijMaaktFoto's</title>
     <link rel="stylesheet" href="/style.css">
-    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <link rel="shortcut icon" href="/favicon.png">
 </head>
 
 <body>
@@ -32,9 +33,15 @@
     </nav>
 </header>
 
-<img src="/images/Homepage/IMG_8628.jpg" alt="Something went wrong..." class="img_homepage">
+<section class="homepage-hero" aria-label="Homepage introductie">
+    <img src="/images/Homepage/IMG_8628.jpg" alt="Something went wrong..." class="img_homepage">
+    <button type="button" class="scroll-indicator" aria-label="Scroll naar beneden">
+        <span class="scroll-indicator-arrow" aria-hidden="true"></span>
+        <span class="scroll-indicator-arrow scroll-indicator-arrow-secondary" aria-hidden="true"></span>
+    </button>
+</section>
 
-<div class="container">
+<div class="container" id="homepage-content">
     <h1>Sportfotografie</h1>
 </div>
 
@@ -125,6 +132,52 @@
     </div>
 </footer>
 
+<script>
+    (() => {
+        const hero = document.querySelector(".homepage-hero");
+        const indicator = document.querySelector(".scroll-indicator");
+        const target = document.querySelector("#homepage-content");
+        const desktopQuery = window.matchMedia("(min-width: 1161px)");
+
+        if (!hero || !indicator || !target || !desktopQuery.matches) {
+            return;
+        }
+
+        const hideIndicator = () => {
+            indicator.classList.add("is-hidden");
+            hero.classList.add("is-scrolled");
+            window.removeEventListener("scroll", onScroll);
+            window.removeEventListener("keydown", onKeydown);
+        };
+
+        const onScroll = () => {
+            if (window.scrollY > 24) {
+                hideIndicator();
+            }
+        };
+
+        const onKeydown = (event) => {
+            const keys = ["ArrowDown", "PageDown", "Space", "Home", "End"];
+            if (keys.includes(event.code) || keys.includes(event.key)) {
+                hideIndicator();
+            }
+        };
+
+        indicator.addEventListener("click", () => {
+            const heroBottom = hero.getBoundingClientRect().bottom + window.scrollY;
+            window.scrollTo({
+                top: Math.max(heroBottom + 8, 0),
+                behavior: "smooth"
+            });
+            hideIndicator();
+        });
+
+        window.addEventListener("scroll", onScroll, { passive: true });
+        window.addEventListener("keydown", onKeydown);
+    })();
+</script>
+
 </body>
 </html>
+
 

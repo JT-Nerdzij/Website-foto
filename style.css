@@ -392,6 +392,15 @@ p{
   display: block;
 }
 
+.homepage-hero {
+    position: relative;
+    overflow: hidden;
+}
+
+.scroll-indicator {
+    display: none;
+}
+
 .schema {
   width: 100%;
   border-collapse: collapse;
@@ -861,6 +870,114 @@ p{
     color: #666;
     margin-top: -8px;
 
+}
+
+@media (min-width: 1161px) {
+    .homepage-hero::after {
+        content: "";
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        width: 100vw;
+        height: 280px;
+        z-index: 2;
+        background: linear-gradient(
+            to bottom,
+            rgba(0, 0, 0, 0) 0%,
+            rgba(0, 0, 0, 0.14) 18%,
+            rgba(0, 0, 0, 0.38) 42%,
+            rgba(0, 0, 0, 0.68) 68%,
+            rgba(0, 0, 0, 0.9) 100%
+        );
+        pointer-events: none;
+        opacity: 1;
+        transition: opacity 0.28s ease;
+    }
+
+    .homepage-hero.is-scrolled::after {
+        opacity: 0;
+    }
+
+    .scroll-indicator {
+        position: fixed;
+        left: 50%;
+        bottom: 26px;
+        z-index: 3;
+        display: inline-flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 3px;
+        padding: 0;
+        border: none;
+        background: transparent;
+        color: #FFFFFF;
+        cursor: pointer;
+        appearance: none;
+        -webkit-appearance: none;
+        transform: translateX(-50%);
+        transition: opacity 0.28s ease, transform 0.28s ease, background-color 0.2s ease;
+        animation: scroll-indicator-bounce 1.8s ease-in-out infinite;
+        text-shadow: 0 2px 14px rgba(0, 0, 0, 0.55);
+        box-shadow: none;
+    }
+
+    .scroll-indicator:hover {
+        color: #FFFFFF;
+        background: transparent;
+        box-shadow: none;
+    }
+
+    .scroll-indicator:focus,
+    .scroll-indicator:focus-visible,
+    .scroll-indicator:active {
+        background: transparent;
+        box-shadow: none;
+        outline: none;
+    }
+
+    .scroll-indicator.is-hidden {
+        opacity: 0;
+        pointer-events: none;
+        transform: translateX(-50%) translateY(16px);
+        animation: none;
+    }
+
+    .scroll-indicator-arrow {
+        width: 24px;
+        height: 24px;
+        border-right: 3px solid currentColor;
+        border-bottom: 3px solid currentColor;
+        transform: rotate(45deg);
+        opacity: 0.98;
+        transition: transform 0.18s ease, opacity 0.18s ease, filter 0.18s ease;
+    }
+
+    .scroll-indicator-arrow-secondary {
+        margin-top: -10px;
+        opacity: 0.72;
+    }
+
+    .scroll-indicator:hover .scroll-indicator-arrow {
+        transform: rotate(45deg) scale(1.16);
+        opacity: 1;
+        filter: brightness(1.2);
+    }
+
+    .scroll-indicator:hover .scroll-indicator-arrow-secondary {
+        opacity: 0.9;
+    }
+
+    @keyframes scroll-indicator-bounce {
+        0%,
+        100% {
+            transform: translateX(-50%) translateY(0);
+        }
+
+        50% {
+            transform: translateX(-50%) translateY(8px);
+        }
+    }
 }
 
 /* Responsive tweaks */
