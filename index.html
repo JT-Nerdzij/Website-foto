@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
@@ -25,6 +25,7 @@
         <label for="menu-toggle" class="menu-button">Menu</label>
             <div class="menu">
                 <a href="/" class="active">Home</a>
+                <a href="/portfolio/">Portfolio</a>
                 <a href="/overmij/">Over mij</a>
                 <a href="/albums/">Albums</a>
                 <a href="/social/">Instagram</a>
@@ -34,7 +35,7 @@
 </header>
 
 <section class="homepage-hero" aria-label="Homepage introductie">
-    <img src="/images/Homepage/IMG_8628.jpg" alt="Something went wrong..." class="img_homepage">
+        <img id="hero-img" src="" alt="Something went wrong..." class="img_homepage">
     <button type="button" class="scroll-indicator" aria-label="Scroll naar beneden">
         <span class="scroll-indicator-arrow" aria-hidden="true"></span>
         <span class="scroll-indicator-arrow scroll-indicator-arrow-secondary" aria-hidden="true"></span>
@@ -177,7 +178,85 @@
     })();
 </script>
 
+    <script src="/site-notice.js"></script>
+
+
+
+<div id="site-notice" style="
+    position: fixed;
+    top: 100px;
+    right: 20px;
+    background: white;
+    border-radius: 12px;
+    padding: 14px 16px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+    max-width: 280px;
+    z-index: 9999;
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    font-family: inherit;
+    animation: slideIn 0.4s ease;
+">
+    <span style="font-size: 20px;">🔧</span>
+    <div style="flex: 1; font-size: 14px; color: #333; line-height: 1.4;">
+        <strong style="display: block; margin-bottom: 4px;">We werken nog aan de site</strong>
+        Het kan zijn dat pagina's wat trager laden dan normaal.
+    </div>
+    <button onclick="sluitMelding()" style="
+        background: none;
+        border: none;
+        cursor: pointer;
+        font-size: 18px;
+        color: #999;
+        padding: 0;
+        line-height: 1;
+    ">×</button>
+</div>
+
+<style>
+@keyframes slideIn {
+    from { opacity: 0; transform: translateX(40px); }
+    to   { opacity: 1; transform: translateX(0); }
+}
+</style>
+
+<script>
+function sluitMelding() {
+    document.getElementById('site-notice').style.display = 'none';
+    sessionStorage.setItem('noticeDismissed', 'true');
+}
+
+if (sessionStorage.getItem('noticeDismissed') === 'true') {
+    document.getElementById('site-notice').style.display = 'none';
+}
+</script>
+
+
+<script>
+    const heroFotos = [
+        "/images/Homepage/IMG_8628.jpg",
+        "/images/Homepage/IMG_0077.jpg",
+        "/images/Homepage/IMG_4347.jpg",
+        "/images/Homepage/IMG_4318.jpg",
+        "/images/Homepage/IMG_4836.jpg",
+        "/images/Homepage/IMG_4972.jpg",
+        // voeg hier meer fotos toe
+    ];
+
+    const vorigeIndex = parseInt(sessionStorage.getItem('heroIndex') ?? '-1');
+    let nieuweIndex;
+
+    do {
+        nieuweIndex = Math.floor(Math.random() * heroFotos.length);
+    } while (nieuweIndex === vorigeIndex && heroFotos.length > 1);
+
+    sessionStorage.setItem('heroIndex', nieuweIndex);
+    document.getElementById('hero-img').src = heroFotos[nieuweIndex];
+</script>
+
 </body>
 </html>
+
 
 

@@ -12,6 +12,23 @@ document.addEventListener("DOMContentLoaded", () => {
     const currentPage = Number.isFinite(pageFromUrl) ? Math.min(Math.max(pageFromUrl, 1), totalPages) : 1;
     const galleryImages = Array.from(document.querySelectorAll(".photo-grid .card img"));
 
+    const normalizePathname = (value) => {
+        if (!value) {
+            return "";
+        }
+
+        try {
+            return new URL(String(value), window.location.origin).pathname;
+        } catch {
+            return String(value).split("?")[0].split("#")[0];
+        }
+    };
+
+    const isRealImagePath = (value) => {
+        const stringValue = String(value || "");
+        return stringValue && !stringValue.startsWith("data:image/");
+    };
+
     const updateVisibleCards = () => {
         const startIndex = (currentPage - 1) * pageSize;
         const endIndex = startIndex + pageSize;
@@ -88,6 +105,69 @@ document.addEventListener("DOMContentLoaded", () => {
 
     updateVisibleCards();
     renderPagination();
+
+    const scrollToPhotoFromQuery = () => {
+        const params = new URLSearchParams(window.location.search);
+        const rawPhoto = params.get("photo");
+        if (!rawPhoto) {
+            return;
+        }
+
+        const targetPath = normalizePathname(rawPhoto);
+        if (!targetPath) {
+            return;
+        }
+
+        const attempt = () => {
+            for (let index = 0; index < galleryImages.length; index += 1) {
+                const image = galleryImages[index];
+                const rawSrc = image.currentSrc || image.src || image.getAttribute("src") || "";
+                if (!isRealImagePath(rawSrc)) {
+                    continue;
+                }
+
+                if (normalizePathname(rawSrc) !== targetPath) {
+                    continue;
+                }
+
+                const desiredPage = Math.floor(index / pageSize) + 1;
+                if (desiredPage !== currentPage) {
+                    const url = new URL(window.location.href);
+                    url.searchParams.set("page", String(desiredPage));
+                    window.location.replace(`${url.pathname}${url.search}`);
+                    return true;
+                }
+
+                const card = image.closest(".card");
+                if (card) {
+                    card.classList.add("is-portfolio-target");
+                    window.setTimeout(() => card.classList.remove("is-portfolio-target"), 1800);
+                    card.scrollIntoView({ block: "center", behavior: "smooth" });
+                } else {
+                    image.scrollIntoView({ block: "center", behavior: "smooth" });
+                }
+                return true;
+            }
+
+            return false;
+        };
+
+        const startedAt = Date.now();
+        const tick = () => {
+            const done = attempt();
+            if (done) {
+                return;
+            }
+            if (Date.now() - startedAt > 9000) {
+                return;
+            }
+            window.setTimeout(tick, 200);
+        };
+
+        tick();
+    };
+
+    scrollToPhotoFromQuery();
 
     const lightbox = document.createElement("div");
     lightbox.className = "album-lightbox";

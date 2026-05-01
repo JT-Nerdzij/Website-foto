@@ -1,0 +1,126 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex, notranslate">
+    <meta name="googlebot" content="noindex, nofollow, noarchive, nosnippet, noimageindex, notranslate">
+    <meta name="referrer" content="no-referrer">
+    <title>Albums - NoordzijMaaktFoto's</title>
+    <link rel="stylesheet" href="/albumspage.css">
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <link rel="shortcut icon" href="/favicon.png">
+</head>
+
+<body>
+
+<header>
+    <nav>
+        <div class="logo">
+            <a href="/">
+                <img src="/images/A7B6644A-5A80-4DDD-BE12-BBC40FE37A35.png" alt="Logo"> 
+                NoordzijMaaktFoto's</a>
+        </div>
+        <input type="checkbox" id="menu-toggle" class="menu-toggle">
+        <label for="menu-toggle" class="menu-button">Menu</label>
+            <div class="menu">
+                <a href="/">Home</a>
+                <a href="/portfolio/">Portfolio</a>
+                <a href="/overmij/">Over mij</a>
+                <a href="/albums/" class="active">Albums</a>
+                <a href="/social/">Instagram</a>
+                <a href="/contact/">Contact</a>
+        </div>
+    </nav>
+</header>
+
+<div class="container">
+    <h1 class="ablumtitlepagina">Albums</h1>
+        <div class="album-search">
+            <div class="album-search-field">
+                <span class="album-search-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" focusable="false">
+                        <circle cx="11" cy="11" r="6.5"></circle>
+                        <path d="M16 16L21 21"></path>
+                    </svg>
+                </span>
+                <input type="search" id="album-search-input" class="album-search-input" placeholder="Zoek" autocomplete="off">
+            </div>
+            <p id="album-search-empty" class="album-search-empty" hidden>Er zijn geen albums gevonden met die naam.</p>
+        </div>
+        <div class="grid">
+
+            
+
+        
+    </div>
+</div>
+
+<footer class="main-footer">
+    <div class="footer-container">
+        <div class="footer-column brand">
+            <div class="footer-logo">
+                <img src="/images/A7B6644A-5A80-4DDD-BE12-BBC40FE37A35.png" alt="Logo">
+                <span>NoordzijMaaktFoto's</span>
+                <p>&copy; 2026</p>
+            </div>
+        </div>
+
+        <div class="footer-column">
+            <h3>Navigatie</h3>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/albums/">Albums</a></li>
+                <li><a href="/overmij/">Over Mij</a></li>
+            </ul>
+        </div>
+
+        <div class="footer-column">
+            <h3>Support</h3>
+            <ul>
+                <li><a href="/contact/">Contact</a></li>
+                <li><a href="/social/">Instagram</a></li>
+            </ul>
+        </div>
+    </div>
+</footer>
+
+<script src="/album-locks.js"></script>
+<script src="/album-access.js"></script>
+<script>
+    const albumSearchInput = document.getElementById("album-search-input");
+    const albumSearchEmpty = document.getElementById("album-search-empty");
+    const albumCards = Array.from(document.querySelectorAll(".grid .card"));
+
+    if (albumSearchInput) {
+        albumSearchInput.addEventListener("input", () => {
+            const query = albumSearchInput.value.trim().toLowerCase();
+            let visibleCount = 0;
+
+            albumCards.forEach((card) => {
+                const title = card.querySelector("h2")?.textContent.toLowerCase() || "";
+                const matches = title.includes(query);
+                card.hidden = !matches;
+
+                if (matches) {
+                    visibleCount += 1;
+                }
+            });
+
+            if (albumSearchEmpty) {
+                albumSearchEmpty.hidden = visibleCount !== 0;
+            }
+        });
+    }
+</script>
+
+    <script src="/site-notice.js"></script>
+</body>
+</html>
+
+
+
+
+
+
+
